@@ -15,7 +15,4 @@ public class ContaCorrente  extends ContaBancaria {
         double taxa = valores * taxaManutencao;
         super.sacar(valores + taxa);
     }
-
-//    protected void init() {
-//    }
 }

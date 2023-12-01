@@ -28,11 +28,12 @@ public class ContaCorrenteServiceImpl  implements ContaCorrenteService {
     }
 
     @Override
-    public void depositar(String numeroConta, double valor) throws ContaInvalidaException {
+    public ContaCorrente depositar(String numeroConta, double valor) throws ContaInvalidaException {
         ContaCorrente conta = getContaPorNumero(numeroConta);
         if (conta == null) {
             throw new ContaInvalidaException("Conta inválida. Por favor, verifique o número da conta.");}
         conta.depositar(valor);
+        return conta;
     }
 
     @Override

@@ -12,36 +12,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 @Path("/contacorrente")
 public class GreetingResource {
     List<ContaCorrente> contaCorrenteList = new ArrayList<>();
     ContaCorrenteService contaCorrenteService = new ContaCorrenteServiceImpl(contaCorrenteList);
 
+
     @POST
-    @Path("/cadastrarconta")
+    @Path("/cadastrar")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String cadastrarconta(@FormParam("nome") String nome, @FormParam("cpf") String cpf) throws ContaInvalidaException {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String criarConta(@FormParam("nome") String nome, @FormParam("cpf") String cpf) {
 
         try {
-            ContaCorrenteService contaService = new ContaCorrenteServiceImpl(contaCorrenteList);
-            ContaCorrente contaCorrente = contaService.criarConta(nome, cpf);
-            contaCorrenteList.add(contaCorrente);
-            cpf.startsWith("contaCorrente");
+             //return contaCorrenteService.criarConta(nome, cpf);
+          ContaCorrente conta = contaCorrenteService.criarConta(nome, cpf);
+           return "ok" + conta.toString();
 
         } catch (ContaInvalidaException e) {
-            return "Erro";
+            return "Erro, não foi possivel criar a conta!";
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return nome;
+            return null;
     }
 
-//    @POST
-//    @Path("/depositar")
-//    public ContaBancaria depositar (DepositoRequest request) {
-//        ContaBancaria conta = contas.get(request.)
-//    }
+    @POST
+    @Path("/depositar")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String depositar(@FormParam("numeroConta") String numeroConta, @FormParam("ValorDeposito") double valor) {
+        try {
+            contaCorrenteService.depositar(numeroConta, valor);
+            return "Deposito no valor de R$ " + valor;
+        } catch (ContaInvalidaException e) {
+            return "Erro, deposito não realizado";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            return null;
+    }
 
+    @POST
+    @Path("/sacar")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String sacar(@FormParam("numeroConta") String numeroConta, @FormParam("ValorSaque") double valorSaque) {
+        try {
+            contaCorrenteService.sacar(numeroConta, valorSaque);
+            return "Saque no valor de R$ " + valorSaque;
+        } catch (ContaInvalidaException e) {
+            return "Erro, saldo insuficiente";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+
 
 
 

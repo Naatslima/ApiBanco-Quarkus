@@ -59,13 +59,10 @@ public class ContaBancaria {
             if (origem.getSaldo() < valor) {
                 throw new SaldoInsuficienteException("Saldo insuficiente para realizar a transferência.");
             }
-            origem.setSaldo(origem.getSaldo() - valor - (valor * TAXA_DE_TRANSFERENCIA ));
+            origem.setSaldo(origem.getSaldo() - valor - (valor * TAXA_DE_TRANSFERENCIA));
             destino.setSaldo(destino.getSaldo() + valor);
         } catch (SaldoInsuficienteException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public void put(String numeroConta) {
     }
 }

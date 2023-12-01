@@ -1,4 +1,5 @@
 package models;
+
 public class Cliente {
 
     private String nome;
@@ -9,6 +10,11 @@ public class Cliente {
     public Cliente(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
+    }
+    @Override
+    public String toString(){
+        return "Nome: " + nome +
+                "CPF: " + cpf;
     }
 }
 
